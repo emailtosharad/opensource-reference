@@ -1,0 +1,78 @@
+{
+  "mcpServers": {
+    "kdenlive": {
+      "command": "/Users/sharadkumar/opensource/kdenlive-mcp-server/.venv/bin/kdenlive-mcp",
+      "args": []
+    },
+    "audacity": {
+      "command": "/Users/sharadkumar/opensource/Audacity-MCP/.venv/bin/audacity-mcp",
+      "args": []
+    },
+    "drawthings": {
+      "command": "/opt/homebrew/bin/node",
+      "args": [
+        "/Users/sharadkumar/opensource/mcp-drawthings/dist/index.js"
+      ],
+      "env": {
+        "DRAWTHINGS_HOST": "127.0.0.1",
+        "DRAWTHINGS_PORT": "7860",
+        "DRAWTHINGS_OUTPUT_DIR": "/Users/sharadkumar/Pictures/drawthings-mcp"
+      }
+    },
+    "flow": {
+      "command": "/opt/homebrew/bin/node",
+      "args": [
+        "/Users/sharadkumar/opensource/flow-mcp/dist/index.js"
+      ]
+    },
+    "splicekit": {
+      "command": "/Users/sharadkumar/.venvs/splicekit-mcp/bin/python",
+      "args": [
+        "/Users/sharadkumar/opensource/SpliceKit/mcp/server.py"
+      ]
+    },
+    "youtube_uploader": {
+      "command": "/Users/sharadkumar/opensource/youtube-uploader-mcp/youtube-uploader-mcp",
+      "args": [
+        "-client_secret_file",
+        "/Users/sharadkumar/opensource/youtube-uploader-mcp/client_secret.json",
+        "-working_dir",
+        "/Users/sharadkumar/opensource/youtube-uploader-mcp"
+      ]
+    },
+    "autoflowcut": {
+      "command": "/opt/homebrew/bin/node",
+      "args": [
+        "/Users/sharadkumar/opensource/AutoFlowCut/mcp-server/index.js"
+      ]
+    },
+    "capcut_direct": {
+      "command": "/opt/homebrew/bin/node",
+      "args": [
+        "/Users/sharadkumar/opensource/capcut-mcp/src/server.js"
+      ],
+      "env": {
+        "CAPCUT_DRAFTS_DIR": "/Users/sharadkumar/Movies/CapCut/User Data/Projects/com.lveditor.draft"
+      }
+    },
+    "capcut_smartcut": {
+      "command": "/Users/sharadkumar/opensource/capcut-ai-editor/.venv/bin/python",
+      "args": [
+        "-m",
+        "smartcut.server"
+      ],
+      "env": {
+        "CAPCUT_DRAFTS_DIR": "/Users/sharadkumar/Movies/CapCut/User Data/Projects/com.lveditor.draft"
+      }
+    },
+    "capcut_kit": {
+      "command": "/opt/homebrew/bin/node",
+      "args": [
+        "/Users/sharadkumar/opensource/capcut-mcp-kit/capcut-mcp-server/dist/index.js"
+      ],
+      "env": {
+        "CAPCUT_API_URL": "http://localhost:9001"
+      }
+    }
+  }
+}
