@@ -11,7 +11,7 @@
 
 This repository serves as the **canonical backup, documentation registry, and automated disaster recovery suite** for the entire local AI audio, video production, motion graphics, and Model Context Protocol (MCP) agent infrastructure running on Apple Silicon.
 
-In the event of hardware failure, machine migration, or OS reinstallation, this project allows you to completely rebuild and verify all **34 open-source tools, DAWs, neural synthesis models, and MCP servers** in under 15 minutes.
+In the event of hardware failure, machine migration, or OS reinstallation, this project allows you to completely rebuild and verify all **35 open-source tools, DAWs, neural synthesis models, and MCP servers** in under 15 minutes.
 
 ---
 
@@ -19,7 +19,7 @@ In the event of hardware failure, machine migration, or OS reinstallation, this 
 
 | File | Description |
 |---|---|
-| **[`TOOLS.md`](./TOOLS.md)** | **Master Tools Registry**: In-depth profiles of all 34 tools, exact installed versions, internal operating mechanics, key capabilities, operational CLI commands, and directory layouts. |
+| **[`TOOLS.md`](./TOOLS.md)** | **Master Tools Registry**: In-depth profiles of all 35 tools, exact installed versions, internal operating mechanics, key capabilities, operational CLI commands, and directory layouts. |
 | **[`RESTORE.md`](./RESTORE.md)** | **Disaster Recovery Runbook**: Step-by-step restoration instructions covering Homebrew packages, Apple Silicon Metal GPU optimizations, Python 3.12 virtual environments, TypeScript builds, and verification smoke tests. |
 | **[`restore.sh`](./restore.sh)** | **Automated Recovery Script**: One-command bash script that installs prerequisites, clones all 22 upstream repositories, configures virtual environments, compiles binaries, and restores the MCP configuration. |
 | **[`mcp_config.example.json`](./mcp_config.example.json)** | **MCP Server Configuration**: Reference template containing connection parameters for all 10 local MCP servers (`kdenlive`, `audacity`, `drawthings`, `flow`, `splicekit`, `youtube_uploader`, `autoflowcut`, `capcut_direct`, `capcut_smartcut`, `capcut_kit`). |
@@ -45,7 +45,7 @@ chmod +x restore.sh
 
 ## 🛠️ Tool Inventory Overview
 
-The 34 tools cataloged in [`TOOLS.md`](./TOOLS.md) span 4 primary production domains:
+The 35 tools cataloged in [`TOOLS.md`](./TOOLS.md) span 4 primary production domains:
 
 1. **Video Production & NLE Engines**:
    - `AutoFlowCut` (AI image/video batch generation & NLE exporter)
@@ -70,6 +70,7 @@ The 34 tools cataloged in [`TOOLS.md`](./TOOLS.md) span 4 primary production dom
    - `Draw Things MCP` (Local Apple Silicon Metal GPU SDXL diffusion)
    - `Upscayl` (Real-ESRGAN NCNN 4x super-resolution)
    - `Flow MCP` (Google Flow cinematic AI video generation)
+   - `LivePortrait` (Neural landmark deformation, 2D facial animation, gaze steering & dialogue articulation)
    - `ImageMagick & MediaInfo` (Image transformation and stream inspection)
 
 4. **Agent Tooling & Cloud Automation**:
