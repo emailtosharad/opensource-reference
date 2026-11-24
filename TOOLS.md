@@ -51,6 +51,7 @@ This document maintains a catalog of system-level open-source tools, their under
 | **CapCut AI Editor (SmartCut)** | `python -m smartcut.server`, `smartcut` | `0.2.0` (Git `main`) | Automated silence trimming, pause removal & duplicate take detection via CapCut auto-captions | Python 3.12, MCP SDK, Pydantic, FastMCP |
 | **CapCut MCP Kit & VectCutAPI** | `start-server.sh`, `capcut-mcp-server` | `0.12.1` / `1.0.0` | High-level CapCut production suite: 65 camera moves, keyframing, audio ducking, VFX & transitions | Node.js, TypeScript, Python 3.12, Flask, MLX-Whisper (Metal GPU), VectCutAPI |
 | **LivePortrait** | `ComfyUI-LivePortraitKJ`, `python render_liveportrait.py` | `Git (v1.0.0)` | Neural landmark deformation, facial animation, eye gaze redirection & speech articulation | PyTorch MPS (Metal), SPADE Generator, ONNX Runtime, SFD, BlazeFace, ComfyUI |
+| **ComfyUI MCP** | `comfy-mcp`, `comfy` | `0.11.0` / CLI `1.29.0` | Official Comfy-Org Model Context Protocol server for local & cloud ComfyUI automation | ComfyUI, `comfy-cli`, PyTorch MPS (Metal), Starlette, FastAPI |
 
 
 ---
@@ -2069,9 +2070,61 @@ print('LivePortrait environment operational')
 
 ---
 
+### 36. ComfyUI MCP (`comfy-mcp`, `comfy`)
+
+#### How It Works
+`comfy-mcp` is the official Model Context Protocol (MCP) server developed and maintained by **Comfy-Org**. Operating as a high-performance stdio transport layer, it wraps `comfy-cli` and interfaces directly with a local ComfyUI instance (`http://127.0.0.1:8188`) or Comfy Cloud. Instead of exposing low-level graph plumbing (wiring individual nodes), it exposes 41 structured, high-level tools focused on end-to-end template execution, asset generation, model discovery, and lifecycle management:
+
+```
+[Antigravity / Coding Agent]
+               ↓ (stdio JSON-RPC)
+[comfy-mcp (Python stdio transport server)]
+               ↓ (COMFY_BIN: comfy-cli >= 1.29.0)
+[ComfyUI Local Engine (:8188) / Comfy Cloud]
+  ├── Execution: run_workflow, run_template, generate_image
+  ├── Lifecycle: launch_comfyui, stop_comfyui, restart_comfyui, free_memory
+  ├── Discovery: search_templates, get_template, search_models, download_model
+  └── Assets: fetch_outputs, preview_media, upload_file
+               ↓
+[High-Res Narrative Artwork, Upscales & Video Animation]
+```
+
+1. **High-Level Workflow & Template Execution**: Directly runs frontend-format `.json` workflow templates (`run_template`, `run_workflow`) with parameterized inputs without requiring the agent to synthesize custom Python scripts.
+2. **On-Demand Lifecycle & Memory Hygiene**: Exposes explicit lifecycle commands (`launch_comfyui`, `stop_comfyui`, `free_memory`) allowing the agent to spin up the local server, render the required batch of assets, free cached VRAM buffers, and terminate the server when done to prevent Apple Silicon unified memory exhaustion.
+3. **Model & Asset Operations**: Integrates with model registries (`search_models`, `download_model`) to pull checkpoints, LoRAs, and ControlNets directly to disk, and captures generated media outputs (`fetch_outputs`, `preview_media`).
+
+#### Key Capabilities
+- **41 Standardized Tools**: Covers workflow running, image generation, template browsing, model management, memory clearing, and server controls.
+- **Apple Silicon Metal Optimization**: Connects to the local ComfyUI runtime on Apple Silicon (MPS) for local image and video rendering.
+- **Comfy Cloud Routing Support**: Enables zero-local-GPU rendering by routing heavy generation jobs to Comfy Cloud if needed.
+- **Production Template Reuse**: Allows story artists to design complex visual graphs in the ComfyUI web UI and save them as named templates that the agent can execute across 120+ story shots.
+
+#### Common Commands
+```bash
+# 1. Inspect installed comfy-mcp and comfy-cli versions
+/Users/sharadkumar/ComfyUI-Installs/ComfyUI\ \(2\)/ComfyUI/.venv/bin/comfy-mcp --version
+/Users/sharadkumar/ComfyUI-Installs/ComfyUI\ \(2\)/ComfyUI/.venv/bin/comfy --version
+
+# 2. Browse available workflow templates via CLI
+/Users/sharadkumar/ComfyUI-Installs/ComfyUI\ \(2\)/ComfyUI/.venv/bin/comfy templates ls
+
+# 3. Check ComfyUI server status
+/Users/sharadkumar/ComfyUI-Installs/ComfyUI\ \(2\)/ComfyUI/.venv/bin/comfy status
+```
+
+#### Workspace Integration
+- **Binary Path**: `/Users/sharadkumar/ComfyUI-Installs/ComfyUI (2)/ComfyUI/.venv/bin/comfy-mcp`
+- **CLI Executable**: `/Users/sharadkumar/ComfyUI-Installs/ComfyUI (2)/ComfyUI/.venv/bin/comfy`
+- **ComfyUI Workspace**: `/Users/sharadkumar/ComfyUI-Installs/ComfyUI (2)/ComfyUI`
+- **MCP Server Name**: `comfyui` (configured in `~/.gemini/config/mcp_config.json`)
+- **Primary Use Case**: Automated execution of saved ComfyUI workflow templates (SDXL/Flux stylized storybook generation, high-res upscaling, and AnimateDiff rendering) for narrative storytelling.
+
+---
+
 ## Workspace Integration
 
 The tools above integrate with the existing MCP servers located in this directory:
+- **`comfyui` (`comfy-mcp`)**: Official Comfy-Org MCP server at `ComfyUI/.venv/bin/comfy-mcp` exposing 41 tools for local/cloud ComfyUI workflow execution, template parameterization, on-demand server lifecycle management (`launch`/`stop`/`free_memory`), and model downloads.
 - **`liveportrait`**: Neural landmark deformation and facial acting engine at `ComfyUI/custom_nodes/ComfyUI-LivePortraitKJ`. Provides programmatic speech mouth articulation, direct gaze pinning, natural biological blinks, and multi-character sequential compositing on 2K/4K story plates without face melting.
 - **`guney-motion-kit`**: Open-source HTML-to-video motion graphics production engine at `opensource/guney-motion-kit`. Uses HyperFrames and Chrome Headless Shell to render 60fps animations, 3D cards, animated text, and transparent NLE overlays for DaVinci Resolve and CapCut.
 - **`Audacity-MCP`**: Automated multi-track editing, spectral repair, and acoustic leveling.

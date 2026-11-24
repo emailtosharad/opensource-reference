@@ -73,6 +73,14 @@
       "env": {
         "CAPCUT_API_URL": "http://localhost:9001"
       }
+    },
+    "comfyui": {
+      "command": "/Users/sharadkumar/ComfyUI-Installs/ComfyUI (2)/ComfyUI/.venv/bin/comfy-mcp",
+      "args": [],
+      "env": {
+        "COMFY_BIN": "/Users/sharadkumar/ComfyUI-Installs/ComfyUI (2)/ComfyUI/.venv/bin/comfy",
+        "PATH": "/Users/sharadkumar/ComfyUI-Installs/ComfyUI (2)/ComfyUI/.venv/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+      }
     }
   }
 }
